@@ -28,6 +28,13 @@ Docker [compose](https://docs.docker.com/compose/compose-file/) config file, inc
 | `rabbitmq3` | RabbitMQ (cluster member) |
 | `haproxy`   | Load Balancer             |
 
+#### Default expose ports
+
+| Host              | Description                                         |
+| ----------------- | --------------------------------------------------- |
+| `localhost:5672`  | AMQP 0-9-1 and AMQP 1.0 clients                     |
+| `localhost:15672` | HTTP API clients, management UI and `rabbitmqadmin` |
+
 ### `.env`
 
 | Name                     | Default |
