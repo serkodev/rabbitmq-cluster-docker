@@ -15,6 +15,11 @@ Setup a RabbitMQ Cluster environment on your device using the pure [RabbitMQ](ht
 docker compose up
 ```
 
+Open http://localhost:15672 for login
+
+> Username: `guest`  
+> Password: `guest`
+
 ## Configuration
 
 ### `docker-compose.yml`
