@@ -23,4 +23,4 @@ else
 fi
 
 # Keep foreground process active ...
-tail -f /var/log/rabbitmq/*.log
+tail -f /dev/null
