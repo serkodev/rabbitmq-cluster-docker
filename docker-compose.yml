@@ -8,9 +8,13 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
     volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-      - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq1-data:/var/lib/rabbitmq/
+      - rabbitmq1-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   rabbitmq2:
     image: rabbitmq:3-management
@@ -20,9 +24,13 @@ services:
     environment:
       - JOIN_CLUSTER_HOST=rabbitmq1
     volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-      - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq2-data:/var/lib/rabbitmq/
+      - rabbitmq2-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   rabbitmq3:
     image: rabbitmq:3-management
@@ -32,14 +40,18 @@ services:
     environment:
       - JOIN_CLUSTER_HOST=rabbitmq1
     volumes:
-      - ./.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
-      - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - ${PWD}/.erlang.cookie:/var/lib/rabbitmq/.erlang.cookie
+      - ${PWD}/cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq3-data:/var/lib/rabbitmq/
+      - rabbitmq3-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   haproxy:
     image: haproxy:1.7
     volumes:
-      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
+      - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
       - rabbitmq1
       - rabbitmq2
@@ -47,3 +59,16 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
+
+volumes:
+  rabbitmq1-data:
+  rabbitmq1-logs:
+  rabbitmq2-data:
+  rabbitmq2-logs:
+  rabbitmq3-data:
+  rabbitmq3-logs:
