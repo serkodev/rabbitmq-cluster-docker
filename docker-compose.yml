@@ -1,6 +1,7 @@
 services:
   rabbitmq1:
     image: rabbitmq:3-management
+    restart: unless-stopped
     hostname: rabbitmq1
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
@@ -13,6 +14,7 @@ services:
 
   rabbitmq2:
     image: rabbitmq:3-management
+    restart: unless-stopped
     hostname: rabbitmq2
     depends_on:
       - rabbitmq1
@@ -25,6 +27,7 @@ services:
 
   rabbitmq3:
     image: rabbitmq:3-management
+    restart: unless-stopped
     hostname: rabbitmq3
     depends_on:
       - rabbitmq1
@@ -37,6 +40,7 @@ services:
 
   haproxy:
     image: haproxy:3.0
+    restart: unless-stopped
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
