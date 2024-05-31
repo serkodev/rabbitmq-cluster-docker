@@ -9,6 +9,7 @@ services:
       - RABBITMQ_DEFAULT_VHOST=${RABBITMQ_DEFAULT_VHOST}
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
+      - ./advanced.config:/etc/rabbitmq/advanced.config
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq1-data:/var/lib/rabbitmq
       - rabbitmq1-logs:/var/log/rabbitmq
@@ -26,6 +27,7 @@ services:
       - JOIN_CLUSTER_HOST=rabbitmq1
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
+      - ./advanced.config:/etc/rabbitmq/advanced.config
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq2-data:/var/lib/rabbitmq
       - rabbitmq2-logs:/var/log/rabbitmq
@@ -43,9 +45,46 @@ services:
       - JOIN_CLUSTER_HOST=rabbitmq1
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
+      - ./advanced.config:/etc/rabbitmq/advanced.config
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
       - rabbitmq3-data:/var/lib/rabbitmq
       - rabbitmq3-logs:/var/log/rabbitmq
+    entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
+
+  rabbitmq4:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    hostname: rabbitmq4
+    depends_on:
+      - rabbitmq1
+    environment:
+      - JOIN_CLUSTER_HOST=rabbitmq1
+      - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
+    volumes:
+      - ./advanced.config:/etc/rabbitmq/advanced.config
+      - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq4-data:/var/lib/rabbitmq
+      - rabbitmq4-logs:/var/log/rabbitmq
+    entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
+
+  rabbitmq5:
+    image: rabbitmq:3-management
+    restart: unless-stopped
+    hostname: rabbitmq5
+    depends_on:
+      - rabbitmq1
+    environment:
+      - JOIN_CLUSTER_HOST=rabbitmq1
+      - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
+    volumes:
+      - ./advanced.config:/etc/rabbitmq/advanced.config
+      - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq5-data:/var/lib/rabbitmq
+      - rabbitmq5-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - rabbitmq
@@ -76,3 +115,7 @@ volumes:
   rabbitmq2-logs:
   rabbitmq3-data:
   rabbitmq3-logs:
+  rabbitmq4-data:
+  rabbitmq4-logs:
+  rabbitmq5-data:
+  rabbitmq5-logs:
