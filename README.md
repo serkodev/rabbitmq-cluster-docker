@@ -11,11 +11,11 @@ Setup a RabbitMQ Cluster environment on your device using the pure [RabbitMQ](ht
 
 ## Quick start
 
-```
+```con
 docker compose up
 ```
 
-Open http://localhost:15672 to login RabbitMQ dashboard.
+Open <http://localhost:15672> to login RabbitMQ dashboard.
 
 > Username: `guest`  
 > Password: `guest`
@@ -24,13 +24,15 @@ Open http://localhost:15672 to login RabbitMQ dashboard.
 
 ### `docker-compose.yml`
 
-Docker [compose](https://docs.docker.com/compose/compose-file/) config file, including 3 RabbitMQ service cluster and a HAProxy.
+Docker [compose](https://docs.docker.com/compose/compose-file/) config file, including 5 RabbitMQ service cluster and a HAProxy.
 
 | Service     | Description               |
 | ----------- | ------------------------- |
 | `rabbitmq1` | RabbitMQ (cluster)        |
 | `rabbitmq2` | RabbitMQ (cluster member) |
 | `rabbitmq3` | RabbitMQ (cluster member) |
+| `rabbitmq4` | RabbitMQ (cluster member) |
+| `rabbitmq5` | RabbitMQ (cluster member) |
 | `haproxy`   | Load Balancer             |
 
 #### Default expose ports
@@ -39,6 +41,7 @@ Docker [compose](https://docs.docker.com/compose/compose-file/) config file, inc
 | ----------------- | --------------------------------------------------- |
 | `localhost:5672`  | AMQP 0-9-1 and AMQP 1.0 clients                     |
 | `localhost:15672` | HTTP API clients, management UI and `rabbitmqadmin` |
+| `localhost:1936`  | HAProxy statistics |
 
 ### `.env`
 
@@ -46,11 +49,11 @@ Docker [compose](https://docs.docker.com/compose/compose-file/) config file, inc
 | ------------------------ | ------- |
 | `RABBITMQ_DEFAULT_USER`  | guest   |
 | `RABBITMQ_DEFAULT_PASS`  | guest   |
-| `RABBITMQ_DEFAULT_VHOST` | /       |
+| `RABBITMQ_ERLANG_COOKIE` | 12345   |
 
 ### `.erlang.cookie`
 
-Put your custom [Erlang Cookie](https://www.rabbitmq.com/clustering.html#erlang-cookie) inside this file (default: `12345`) for the nodes in cluster communicate with each other.
+Put your custom [Erlang Cookie](https://www.rabbitmq.com/clustering.html#erlang-cookie) value in the `RABBITMQ_ERLANG_COOKIE` environment variable file (`.env`).
 
 ### `haproxy.cfg`
 
