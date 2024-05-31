@@ -10,6 +10,8 @@ services:
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq1-data:/var/lib/rabbitmq
+      - rabbitmq1-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - rabbitmq
@@ -25,6 +27,8 @@ services:
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq2-data:/var/lib/rabbitmq
+      - rabbitmq2-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - rabbitmq
@@ -40,6 +44,8 @@ services:
       - RABBITMQ_ERLANG_COOKIE=${RABBITMQ_ERLANG_COOKIE}
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
+      - rabbitmq3-data:/var/lib/rabbitmq
+      - rabbitmq3-logs:/var/log/rabbitmq
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
     networks:
       - rabbitmq
@@ -61,3 +67,11 @@ services:
 
 networks:
   rabbitmq:
+
+volumes:
+  rabbitmq1-data:
+  rabbitmq1-logs:
+  rabbitmq2-data:
+  rabbitmq2-logs:
+  rabbitmq3-data:
+  rabbitmq3-logs:
