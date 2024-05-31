@@ -11,6 +11,8 @@ services:
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   rabbitmq2:
     image: rabbitmq:3-management
@@ -24,6 +26,8 @@ services:
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   rabbitmq3:
     image: rabbitmq:3-management
@@ -37,6 +41,8 @@ services:
     volumes:
       - ./cluster-entrypoint.sh:/usr/local/bin/cluster-entrypoint.sh
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
+    networks:
+      - rabbitmq
 
   haproxy:
     image: haproxy:3.0
@@ -50,3 +56,8 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+    networks:
+      - rabbitmq
+
+networks:
+  rabbitmq:
