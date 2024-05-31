@@ -37,7 +37,7 @@ services:
     entrypoint: /usr/local/bin/cluster-entrypoint.sh
 
   haproxy:
-    image: haproxy:1.7
+    image: haproxy:3.0
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
