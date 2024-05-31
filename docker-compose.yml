@@ -62,6 +62,7 @@ services:
     ports:
       - 15672:15672
       - 5672:5672
+      - 1936:1936
     networks:
       - rabbitmq
 
