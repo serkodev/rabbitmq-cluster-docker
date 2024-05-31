@@ -20,4 +20,4 @@ else
 fi
 
 # Keep foreground process active ...
-tail -f /dev/null
+sleep infinity
