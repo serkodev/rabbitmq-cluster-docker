@@ -49,7 +49,7 @@ services:
       - rabbitmq
 
   haproxy:
-    image: haproxy:1.7
+    image: haproxy:latest
     volumes:
       - ${PWD}/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
     depends_on:
